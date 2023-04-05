@@ -1,4 +1,4 @@
-package com.echobot.vk_bot;
+package com.echobot.echobot;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
