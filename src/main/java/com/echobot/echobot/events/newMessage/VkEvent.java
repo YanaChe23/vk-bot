@@ -1,4 +1,4 @@
-package com.echobot.echobot.events;
+package com.echobot.echobot.events.newMessage;
 
 
 
