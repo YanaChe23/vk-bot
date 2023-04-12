@@ -1,15 +1,12 @@
 package com.echobot.echobot;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.util.UriComponents;
 
 @Component
 public class Request {
-	WebClient webclient;
-	@Value("${request.host}")
-	String url;
+	private final WebClient webclient;
 	public Request() {
 		 this.webclient = WebClient.create();
 	}
@@ -30,8 +27,6 @@ public class Request {
 				.retrieve();
 	System.out.println(response.bodyToMono(String.class).block());
 	}
-
-
 }
 
 enum Method {

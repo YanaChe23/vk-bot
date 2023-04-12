@@ -1,4 +1,3 @@
-// TODO разобраться с пробелами в сообщении
 package com.echobot.echobot;
 
 import org.springframework.boot.SpringApplication;
