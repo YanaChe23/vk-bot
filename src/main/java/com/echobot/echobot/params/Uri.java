@@ -1,3 +1,4 @@
+// TODO подумать, как кастомизировать ури билдер и request
 package com.echobot.echobot.params;
 
 import com.echobot.echobot.events.newMessage.Message;

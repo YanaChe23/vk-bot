@@ -6,6 +6,6 @@ import org.springframework.context.annotation.PropertySource;
 
 @Configuration
 @ComponentScan("com.echobot.echobot")
-@PropertySource("classpath:request.properties")
+@PropertySource("classpath:application.properties")
 public class SpringConfig {
 }
