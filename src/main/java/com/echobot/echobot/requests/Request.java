@@ -1,48 +1,39 @@
 package com.echobot.echobot.requests;
 
-import com.echobot.echobot.CustomBadRequestException;
-import com.echobot.echobot.events.newMessage.Resp;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
-import org.springframework.web.reactive.function.server.ServerResponse;
 import org.springframework.web.util.UriComponents;
 import reactor.core.publisher.Mono;
 
-import static com.echobot.echobot.VkBotApplication.webclient;
-
 @Component
 public class Request {
-	public void makeRequest(ApiMethod method, UriComponents params) throws JsonProcessingException {
+	private static WebClient webclient;
+	private static WebClient getWebclient() {
+		if(webclient == null) webclient = WebClient.create();
+		return webclient;
+	}
+	public void makeRequest(ApiMethod method, UriComponents params) {
+		WebClient client = getWebclient();
 		switch(method) {
 			case POST:
-				sendPostRequest(params, webclient.delete());
+				sendPostRequest(params, client.post());
 				break;
 			case GET:
-				//sendPostRequest(params, webclient.get());
+				sendPostRequest(params, client.get());
 				break;
 		}
+		sendPostRequest(params, webclient.get());
 	}
-	 public void sendPostRequest(UriComponents params, WebClient.UriSpec uriSpec) throws JsonProcessingException {
-		//WebClient.ResponseSpec response = uriSpec
-		//Resp responses =
-				uriSpec
+	 public void sendPostRequest(UriComponents params, WebClient.UriSpec uriSpec){
+		 String test = uriSpec
 		.uri(params.toString())
-				.retrieve()
-				//.onStatus(status-> status.value() == HttpStatus.I_AM_A_TEAPOT.value(),
-				.onStatus(status -> !status.is2xxSuccessful(),
-						response -> Mono.error(new ServiceException("Method not allowed. Please check the URL.", response.statusCode().value())))
-				.bodyToMono(Resp.class)
-				.block();
-		ObjectMapper objectMapper = new ObjectMapper();
-		//System.err.println(objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(responses));
-		//System.out.println(response.bodyToMono(String.class).block());
-
-
+		.retrieve()
+		.onStatus(status -> status.isError(),
+				response -> Mono.error(new ServiceException("Something went wrong. Please try later", response.statusCode().value())))
+		.bodyToMono(String.class)
+		.block();
+		 //System.out.println(test);
 	}
-
 }
 
 
