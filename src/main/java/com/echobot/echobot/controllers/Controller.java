@@ -1,14 +1,11 @@
 package com.echobot.echobot.controllers;
 
 import com.echobot.echobot.requests.ApiMethod;
-import com.echobot.echobot.requests.Request;
-import com.echobot.echobot.SpringConfig;
 import com.echobot.echobot.events.newMessage.VkEvent;
-import com.echobot.echobot.params.Uri;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.PropertySource;
-import org.springframework.stereotype.Component;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponents;
 

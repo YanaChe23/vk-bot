@@ -1,4 +1,3 @@
-// TODO подумать, как кастомизировать ури билдер и request
 package com.echobot.echobot.params;
 
 import com.echobot.echobot.events.newMessage.Message;
@@ -41,7 +40,6 @@ public class Uri {
                 .queryParams(uri)
                 .path("/method/messages.send")
                 .build();
-        System.out.println("Check"  + uri2);
         return uri2;
     }
 }
