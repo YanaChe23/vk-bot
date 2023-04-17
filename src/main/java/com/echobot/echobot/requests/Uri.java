@@ -17,25 +17,24 @@ public class Uri {
     protected String apiVersion;
     @Value("${request.host}")
     protected String host;
-    public MultiValueMap<String, String> addParams(String action, VkEvent event) {
+    public MultiValueMap<String, String> addUriParams(String action, VkEvent event) {
         MultiValueMap<String, String> requestParams = new LinkedMultiValueMap<>();
         if (action.equals("messages.send")) {
             Message message = event.object.message;
             requestParams.add("user_id", message.getFrom_id());
             requestParams.add("random_id", String.valueOf(System.currentTimeMillis()));
-            requestParams.add("message", message.getText());
+            requestParams.add("message", "You said: " + message.getText());
             requestParams.add("access_token", this.token);
             requestParams.add("v", this.apiVersion);
-
         }
         return requestParams;
     }
     public UriComponents buildUri(String action, VkEvent event) {
-        MultiValueMap<String, String> uri =  addParams(action, event);
+        MultiValueMap<String, String> uriParams = addUriParams(action, event);
         UriComponents uri2 =  UriComponentsBuilder.newInstance()
                 .scheme("https")
                 .host(this.host)
-                .queryParams(uri)
+                .queryParams(uriParams)
                 .path("/method/" + action)
                 .build();
         return uri2;

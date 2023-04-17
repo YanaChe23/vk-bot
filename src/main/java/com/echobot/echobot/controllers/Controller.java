@@ -17,16 +17,13 @@ import org.springframework.web.util.UriComponents;
 public class Controller {
     @Autowired
     private Request request;
-    @Autowired
-    private Uri uri;
     @Value("${request.callbackApiConfirmation}")
     private String callbackApiConfirmation;
 
     @PostMapping()
     public String getEvent(@RequestBody VkEvent event) {
         if (event.type.equals("message_new")) {
-            UriComponents params = uri.buildUri("messages.send", event);
-            request.makeRequest(ApiMethod.POST, params);
+            request.makeRequest(ApiMethod.POST, "messages.send", event);
         }
         // returning the string to ensure successful server confirmation during set up in VK
         // any specific response to events from VK is not required
