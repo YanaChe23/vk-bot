@@ -1,4 +1,4 @@
-package com.echobot.echobot.params;
+package com.echobot.echobot.requests;
 
 import com.echobot.echobot.events.newMessage.Message;
 import com.echobot.echobot.events.newMessage.VkEvent;
@@ -9,18 +9,16 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import java.io.UnsupportedEncodingException;
-
 @Component
 public class Uri {
-    private final MultiValueMap<String, String> requestParams  = new LinkedMultiValueMap<>();
     @Value("${request.token}")
     protected String token;
     @Value("${request.apiVersion}")
     protected String apiVersion;
     @Value("${request.host}")
     protected String host;
-    public MultiValueMap<String, String> combineParams(String action, VkEvent event) throws UnsupportedEncodingException {
+    public MultiValueMap<String, String> addParams(String action, VkEvent event) {
+        MultiValueMap<String, String> requestParams = new LinkedMultiValueMap<>();
         if (action.equals("messages.send")) {
             Message message = event.object.message;
             requestParams.add("user_id", message.getFrom_id());
@@ -32,13 +30,13 @@ public class Uri {
         }
         return requestParams;
     }
-    public UriComponents buildUri(String action, VkEvent event) throws UnsupportedEncodingException {
-        MultiValueMap<String, String> uri =  combineParams(action, event);
+    public UriComponents buildUri(String action, VkEvent event) {
+        MultiValueMap<String, String> uri =  addParams(action, event);
         UriComponents uri2 =  UriComponentsBuilder.newInstance()
                 .scheme("https")
                 .host(this.host)
                 .queryParams(uri)
-                .path("/method/messages.send")
+                .path("/method/" + action)
                 .build();
         return uri2;
     }

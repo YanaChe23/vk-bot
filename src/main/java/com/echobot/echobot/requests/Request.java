@@ -1,5 +1,6 @@
 package com.echobot.echobot.requests;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.util.UriComponents;
@@ -22,7 +23,6 @@ public class Request {
 				sendPostRequest(params, client.get());
 				break;
 		}
-		sendPostRequest(params, webclient.get());
 	}
 	 public void sendPostRequest(UriComponents params, WebClient.UriSpec uriSpec){
 		 String test = uriSpec
@@ -32,8 +32,9 @@ public class Request {
 				response -> Mono.error(new ServiceException("Something went wrong. Please try later", response.statusCode().value())))
 		.bodyToMono(String.class)
 		.block();
-		 //System.out.println(test);
+		 System.out.println(test);
 	}
+
 }
 
 

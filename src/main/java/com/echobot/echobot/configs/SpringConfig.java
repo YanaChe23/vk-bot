@@ -1,4 +1,4 @@
-package com.echobot.echobot;
+package com.echobot.echobot.configs;
 
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
