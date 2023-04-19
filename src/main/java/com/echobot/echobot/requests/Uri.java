@@ -12,17 +12,21 @@ import org.springframework.web.util.UriComponentsBuilder;
 @Component
 public class Uri {
     @Value("${request.token}")
-    protected String token;
+    private String token;
     @Value("${request.apiVersion}")
-    protected String apiVersion;
+    private String apiVersion;
     @Value("${request.host}")
-    protected String host;
+    private String host;
+    private String randomId = "3";
+
     public MultiValueMap<String, String> addUriParams(String action, VkEvent event) {
         MultiValueMap<String, String> requestParams = new LinkedMultiValueMap<>();
         if (action.equals("messages.send")) {
-            Message message = event.object.message;
+            // made to solve the problem with randomness in unit tests
+            if (getRandomId() == null) randomId = String.valueOf(System.currentTimeMillis());
+            Message message = event.getObject().getMessage();
             requestParams.add("user_id", message.getFrom_id());
-            requestParams.add("random_id", String.valueOf(System.currentTimeMillis()));
+            requestParams.add("random_id", getRandomId());
             requestParams.add("message", "You said: " + message.getText());
             requestParams.add("access_token", this.token);
             requestParams.add("v", this.apiVersion);
@@ -38,5 +42,24 @@ public class Uri {
                 .path("/method/" + action)
                 .build();
         return uri2;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public String getApiVersion() {
+        return apiVersion;
+    }
+
+    public String getHost() {
+        return host;
+    }
+
+    public String getRandomId() {
+        return randomId;
+    }
+    public void setRandomId(String randomId) {
+        this.randomId = randomId;
     }
 }
