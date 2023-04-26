@@ -25,8 +25,8 @@ import static org.mockito.Mockito.when;
 
 class UriTest {
     @Autowired
-    public Uri uri;
-    public MultiValueMap<String, String> requestParams =  new LinkedMultiValueMap<>();
+    private Uri uri;
+    private MultiValueMap<String, String> requestParams =  new LinkedMultiValueMap<>();
     private static final Message message = mock(Message.class);
     private static final VkEvent vkEvent = mock(VkEvent.class);
     private static final VkEventObject vkEventObject = mock(VkEventObject.class);
@@ -50,7 +50,8 @@ class UriTest {
 
     @Test
     void buildUriTest_ifReturnsCorrectUri() {
-        String uriString = () "https://api.vk.com/method/messages.send?user_id=1&random_id=3&message=You said: Hello&access_token=test_token&v=5.131";
-        Assertions.assertEquals(uriString, uri.buildUri("messages.send", vkEvent));
+        uri.setRandomId("3");
+        String uriStringToCompare = "https://api.vk.com/method/messages.send?user_id=1&random_id=3&message=You said: Hello&access_token=test_token&v=5.131";
+        Assertions.assertEquals(uriStringToCompare, uri.buildUri("messages.send", vkEvent).toString());
     }
 }

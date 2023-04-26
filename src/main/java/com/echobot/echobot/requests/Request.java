@@ -11,32 +11,35 @@ import reactor.core.publisher.Mono;
 public class Request {
 	@Autowired
 	Uri uri;
-	private static WebClient webclient;
-	private static WebClient getWebclient() {
+	private WebClient webclient;
+	private UriComponents uriComponents;
+	private WebClient getWebclient() {
 		if(webclient == null) webclient = WebClient.create();
 		return webclient;
 	}
 	public void makeRequest(ApiMethod method, String action, VkEvent event) {
+
+		// todo перенести наверх?
 		WebClient client = getWebclient();
-		UriComponents uriComponents = uri.buildUri(action, event);
+		uriComponents = uri.buildUri(action, event);
 		switch(method) {
 			case POST:
-				sendPostRequest(uriComponents, client.post());
+				sendRequest(uriComponents, client.post());
 				break;
 			case GET:
-				sendPostRequest(uriComponents, client.get());
+				sendRequest(uriComponents, client.get());
 				break;
 		}
 	}
-	 public void sendPostRequest(UriComponents params, WebClient.UriSpec uriSpec){
-		 String test = uriSpec
-		.uri(params.toString())
-		.retrieve()
-		.onStatus(status -> status.isError(),
-				response -> Mono.error(new ServiceException("Something went wrong. Please try later", response.statusCode().value())))
-		.bodyToMono(String.class)
-		.block();
-		 System.out.println(test);
+	 public String sendRequest(UriComponents params, WebClient.UriSpec uriSpec){
+		 String response  = uriSpec
+			.uri(params.toString())
+			.retrieve()
+			.onStatus(status -> status.isError(),
+					resp -> Mono.error(new ServiceException("Something went wrong. Please try later", resp.statusCode().value())))
+			.bodyToMono(String.class)
+			.block();
+		 return response;
 	}
 
 }

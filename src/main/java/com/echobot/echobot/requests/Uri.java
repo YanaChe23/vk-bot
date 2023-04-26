@@ -17,7 +17,7 @@ public class Uri {
     private String apiVersion;
     @Value("${request.host}")
     private String host;
-    private String randomId = "3";
+    private String randomId;
 
     public MultiValueMap<String, String> addUriParams(String action, VkEvent event) {
         MultiValueMap<String, String> requestParams = new LinkedMultiValueMap<>();
