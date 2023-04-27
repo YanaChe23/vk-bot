@@ -1,15 +1,14 @@
 package com.echobot.echobot.requests;
 
-import com.echobot.echobot.TestConfig;
 import com.echobot.echobot.events.newMessage.Message;
 import com.echobot.echobot.events.newMessage.VkEvent;
 import com.echobot.echobot.events.newMessage.VkEventObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Bean;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.support.AnnotationConfigContextLoader;
@@ -19,39 +18,34 @@ import org.springframework.web.util.UriComponents;
 import static org.mockito.Mockito.*;
 
 @SpringBootTest
-@ContextConfiguration(classes = TestConfig.class,
+@ContextConfiguration(classes = RequestTest.class,
         loader = AnnotationConfigContextLoader.class)
 @TestPropertySource(locations = {"classpath:application.properties"})
-// попробовать с экземпляром
 class RequestTest {
-    private WebClient webclient;
-    private UriComponents uriComponents = mock(UriComponents.class);
-    @Autowired
+    @Mock
+    private UriComponents uriComponents;
+    @MockBean
     private Uri uri;
-    @Autowired
+    @SpyBean
     private Request request;
-    @Autowired
+    @MockBean
     private Message message;
-    @Autowired
+    @MockBean
     private VkEvent vkEvent;
-    @Autowired
+    @MockBean
     private VkEventObject vkEventObject;
-
 
     @BeforeEach
     void setUp() {
-        webclient = WebClient.create();
-        UriComponents uriComponents = mock(UriComponents.class);
+        when(uriComponents.toString()).thenReturn("https://api.vk.com/method/messages.send?user_id&random_id=3&message=You said: null&access_token=test_token&v=5.131");
+        when(uri.buildUri("messages.send", vkEvent)).thenReturn(uriComponents);
         when(vkEvent.getObject()).thenReturn(vkEventObject);
         when(vkEventObject.getMessage()).thenReturn(message);
     }
-
     @Test
     void makeRequestTest() {
-        WebClient.RequestBodyUriSpec client = webclient.post();
-        System.out.println("Тест ури " + request);
         request.makeRequest(ApiMethod.POST, "messages.send", vkEvent);
-
+        verify(request).sendRequest(any(UriComponents.class), any(WebClient.RequestBodyUriSpec.class));
     }
     @Test
     void sendPostRequest() {

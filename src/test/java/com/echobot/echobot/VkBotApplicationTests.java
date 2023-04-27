@@ -5,7 +5,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.support.AnnotationConfigContextLoader;
 
 @SpringBootTest
-@ContextConfiguration(classes = TestConfig.class,
+@ContextConfiguration(classes = VkBotApplicationTests.class,
 		loader = AnnotationConfigContextLoader.class)
 class VkBotApplicationTests {
 	@Test

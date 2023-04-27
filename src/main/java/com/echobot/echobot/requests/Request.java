@@ -11,27 +11,25 @@ import reactor.core.publisher.Mono;
 public class Request {
 	@Autowired
 	Uri uri;
-	private WebClient webclient;
+	private WebClient webclient = getWebclient();
 	private UriComponents uriComponents;
 	private WebClient getWebclient() {
 		if(webclient == null) webclient = WebClient.create();
 		return webclient;
 	}
 	public void makeRequest(ApiMethod method, String action, VkEvent event) {
-
-		// todo перенести наверх?
-		WebClient client = getWebclient();
 		uriComponents = uri.buildUri(action, event);
 		switch(method) {
 			case POST:
-				sendRequest(uriComponents, client.post());
+				sendRequest(uriComponents, webclient.post());
 				break;
 			case GET:
-				sendRequest(uriComponents, client.get());
+				sendRequest(uriComponents, webclient.get());
 				break;
 		}
 	}
-	 public String sendRequest(UriComponents params, WebClient.UriSpec uriSpec){
+
+	public String sendRequest(UriComponents params, WebClient.UriSpec uriSpec){
 		 String response  = uriSpec
 			.uri(params.toString())
 			.retrieve()
