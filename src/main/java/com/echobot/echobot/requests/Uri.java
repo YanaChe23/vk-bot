@@ -20,14 +20,16 @@ public class Uri {
 
     public MultiValueMap<String, String> addUriParams(String action, VkEvent event) {
         MultiValueMap<String, String> requestParams = new LinkedMultiValueMap<>();
+        requestParams.add("access_token", this.token);
+        requestParams.add("v", this.apiVersion);
         if (action.equals("messages.send")) {
             // made this to solve the problem with randomness in unit tests
             Message message = event.getObject().getMessage();
             requestParams.add("user_id", message.getFrom_id());
             requestParams.add("random_id", generateRandomId());
             requestParams.add("message", "You said: " + message.getText());
-            requestParams.add("access_token", this.token);
-            requestParams.add("v", this.apiVersion);
+        } else if(action.equals("users.get")) {
+            requestParams.add("user_ids", event.getObject().getMessage().getFrom_id());
         }
         return requestParams;
     }

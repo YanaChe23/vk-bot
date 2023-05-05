@@ -11,20 +11,20 @@ import reactor.core.publisher.Mono;
 public class Request {
 	@Autowired
 	Uri uri;
-	private WebClient webclient = getWebclient();
+	private WebClient webClient = getWebclient();
 	private UriComponents uriComponents;
 	private WebClient getWebclient() {
-		if(webclient == null) webclient = WebClient.create();
-		return webclient;
+		if(webClient == null) webClient = WebClient.create();
+		return webClient;
 	}
 	public void makeRequest(ApiMethod method, String action, VkEvent event) {
 		uriComponents = uri.buildUri(action, event);
 		switch(method) {
 			case POST:
-				sendRequest(uriComponents, webclient.post());
+				sendRequest(uriComponents, webClient.post());
 				break;
 			case GET:
-				sendRequest(uriComponents, webclient.get());
+				sendRequest(uriComponents, webClient.get());
 				break;
 		}
 	}
@@ -38,6 +38,8 @@ public class Request {
 					resp -> Mono.error(new ServiceException("Something went wrong. Please try later", resp.statusCode().value())))
 			.bodyToMono(String.class)
 			.block();
+		System.out.println(params);
+		System.out.println(test);
 		return test;
 	}
 

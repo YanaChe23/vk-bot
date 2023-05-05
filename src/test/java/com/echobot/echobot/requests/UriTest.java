@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.test.context.ContextConfiguration;
@@ -32,6 +33,10 @@ class UriTest {
     private VkEvent vkEvent;
     @Mock
     private VkEventObject vkEventObject;
+    @Value("${request.token}")
+    private String token;
+    @Value("${request.apiVersion}")
+    private String apiVersion;
 
     @BeforeEach
     void setUp() {
@@ -48,8 +53,8 @@ class UriTest {
         requestParams.add("user_id", message.getFrom_id());
         requestParams.add("random_id", uri.generateRandomId());
         requestParams.add("message", "You said: " + message.getText());
-        requestParams.add("access_token", "test_token");
-        requestParams.add("v", "5.131");
+        requestParams.add("access_token", token);
+        requestParams.add("v", apiVersion);
         Assertions.assertEquals(requestParams, uri.addUriParams("messages.send", vkEvent));
     }
 
