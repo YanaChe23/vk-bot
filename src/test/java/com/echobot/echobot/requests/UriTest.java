@@ -39,22 +39,22 @@ class UriTest {
         when(vkEventObject.getMessage()).thenReturn(message);
         when(message.getText()).thenReturn("Hello");
         when(message.getFrom_id()).thenReturn("1");
-        requestParams =  new LinkedMultiValueMap<>();
-        requestParams.add("user_id", message.getFrom_id());
-        requestParams.add("random_id", uri.getRandomId());
-        requestParams.add("message", "You said: " + message.getText());
-        requestParams.add("access_token", "test_token");
-        requestParams.add("v", "5.131");
+        when(uri.generateRandomId()).thenReturn("3");
     }
 
     @Test
     void addUriParamsTest_ifReturnsCorrectParams() {
+        requestParams =  new LinkedMultiValueMap<>();
+        requestParams.add("user_id", message.getFrom_id());
+        requestParams.add("random_id", uri.generateRandomId());
+        requestParams.add("message", "You said: " + message.getText());
+        requestParams.add("access_token", "test_token");
+        requestParams.add("v", "5.131");
         Assertions.assertEquals(requestParams, uri.addUriParams("messages.send", vkEvent));
     }
 
     @Test
     void buildUriTest_ifReturnsCorrectUri() {
-        uri.setRandomId("3");
         String uriStringToCompare = "https://api.vk.com/method/messages.send?user_id=1&random_id=3&message=You said: Hello&access_token=test_token&v=5.131";
         Assertions.assertEquals(uriStringToCompare, uri.buildUri("messages.send", vkEvent).toString());
     }

@@ -16,7 +16,6 @@ import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.util.UriComponents;
 
 import static org.mockito.Mockito.*;
-
 @SpringBootTest
 @ContextConfiguration(classes = RequestTest.class,
         loader = AnnotationConfigContextLoader.class)
@@ -24,10 +23,10 @@ import static org.mockito.Mockito.*;
 class RequestTest {
     @Mock
     private UriComponents uriComponents;
-    @MockBean
-    private Uri uri;
     @SpyBean
     private Request request;
+    @MockBean
+    private Uri uri;
     @MockBean
     private Message message;
     @MockBean
@@ -43,11 +42,14 @@ class RequestTest {
         when(vkEventObject.getMessage()).thenReturn(message);
     }
     @Test
-    void makeRequestTest() {
+    void makeRequestTest_sendPostRequest() {
         request.makeRequest(ApiMethod.POST, "messages.send", vkEvent);
-        verify(request).sendRequest(any(UriComponents.class), any(WebClient.RequestBodyUriSpec.class));
+        verify(request).sendRequest(isA(UriComponents.class), isA(WebClient.RequestBodyUriSpec.class));
     }
+
     @Test
-    void sendPostRequest() {
+    void makeRequestTest_sendGetRequest() {
+        request.makeRequest(ApiMethod.GET, "messages.send", vkEvent);
+        verify(request).sendRequest(isA(UriComponents.class), isA(WebClient.RequestHeadersUriSpec.class));
     }
 }

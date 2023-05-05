@@ -30,14 +30,15 @@ public class Request {
 	}
 
 	public String sendRequest(UriComponents params, WebClient.UriSpec uriSpec){
-		 String response  = uriSpec
+		//return uriSpec
+		String test = uriSpec
 			.uri(params.toString())
 			.retrieve()
 			.onStatus(status -> status.isError(),
 					resp -> Mono.error(new ServiceException("Something went wrong. Please try later", resp.statusCode().value())))
 			.bodyToMono(String.class)
 			.block();
-		 return response;
+		return test;
 	}
 
 }

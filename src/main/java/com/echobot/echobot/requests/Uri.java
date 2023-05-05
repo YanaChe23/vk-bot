@@ -17,16 +17,14 @@ public class Uri {
     private String apiVersion;
     @Value("${request.host}")
     private String host;
-    private String randomId;
 
     public MultiValueMap<String, String> addUriParams(String action, VkEvent event) {
         MultiValueMap<String, String> requestParams = new LinkedMultiValueMap<>();
         if (action.equals("messages.send")) {
-            // made to solve the problem with randomness in unit tests
-            if (getRandomId() == null) randomId = String.valueOf(System.currentTimeMillis());
+            // made this to solve the problem with randomness in unit tests
             Message message = event.getObject().getMessage();
             requestParams.add("user_id", message.getFrom_id());
-            requestParams.add("random_id", getRandomId());
+            requestParams.add("random_id", generateRandomId());
             requestParams.add("message", "You said: " + message.getText());
             requestParams.add("access_token", this.token);
             requestParams.add("v", this.apiVersion);
@@ -35,13 +33,12 @@ public class Uri {
     }
     public UriComponents buildUri(String action, VkEvent event) {
         MultiValueMap<String, String> uriParams = addUriParams(action, event);
-        UriComponents uri2 =  UriComponentsBuilder.newInstance()
+        return UriComponentsBuilder.newInstance()
                 .scheme("https")
                 .host(this.host)
                 .queryParams(uriParams)
                 .path("/method/" + action)
                 .build();
-        return uri2;
     }
 
     public String getToken() {
@@ -56,10 +53,7 @@ public class Uri {
         return host;
     }
 
-    public String getRandomId() {
-        return randomId;
-    }
-    public void setRandomId(String randomId) {
-        this.randomId = randomId;
+    public String generateRandomId() {
+        return String.valueOf(System.currentTimeMillis());
     }
 }
