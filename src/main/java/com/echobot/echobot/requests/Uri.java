@@ -26,9 +26,7 @@ public class Uri {
             Message message = event.getObject().getMessage();
             requestParams.add("user_id", message.getFrom_id());
             requestParams.add("random_id", generateRandomId());
-            requestParams.add("message", "You said: " + message.getText());
-        } else if(action.equals("users.get")) {
-            requestParams.add("user_ids", event.getObject().getMessage().getFrom_id());
+            requestParams.add("message", generateTextMessage(event));
         }
         return requestParams;
     }
@@ -41,20 +39,21 @@ public class Uri {
                 .path("/method/" + action)
                 .build();
     }
-
-    public String getToken() {
-        return token;
-    }
-
-    public String getApiVersion() {
-        return apiVersion;
-    }
-
-    public String getHost() {
-        return host;
-    }
-
     public String generateRandomId() {
         return String.valueOf(System.currentTimeMillis());
+    }
+
+    private String generateTextMessage(VkEvent vkEvent) {
+        if (vkEvent != null
+                && vkEvent.getObject() != null
+                && vkEvent.getObject().getMessage() != null) {
+            if (vkEvent.getObject().getMessage().getText().isEmpty()
+                    || vkEvent.getObject().getMessage().getText() == null) {
+                return "I don't work with attachments yet. Please send me a text message.";
+            } else {
+                return "You said: " + vkEvent.getObject().getMessage().getText();
+            }
+        }
+        return "Something went wrong. Please try later.";
     }
 }
