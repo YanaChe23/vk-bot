@@ -1,7 +1,7 @@
 package com.echobot.echobot.requests;
 
-import com.echobot.echobot.events.newMessage.Message;
-import com.echobot.echobot.events.newMessage.VkEvent;
+import com.echobot.echobot.events.newmessage.Message;
+import com.echobot.echobot.events.newmessage.VkEvent;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.util.LinkedMultiValueMap;
@@ -25,11 +25,11 @@ public class Uri {
         if (action.equals("messages.send")) {
             // made this to solve the problem with randomness in unit tests
             Message message = event.getObject().getMessage();
-            requestParams.add("user_id", message.getFrom_id());
+            requestParams.add("user_id", message.getId());
             requestParams.add("random_id", generateRandomId());
             requestParams.add("message", "You said: " + message.getText());
         } else if(action.equals("users.get")) {
-            requestParams.add("user_ids", event.getObject().getMessage().getFrom_id());
+            requestParams.add("user_ids", event.getObject().getMessage().getId());
         }
         return requestParams;
     }

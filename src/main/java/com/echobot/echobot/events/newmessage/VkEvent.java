@@ -1,8 +1,8 @@
-package com.echobot.echobot.events.newMessage;
+package com.echobot.echobot.events.newmessage;
 
 public class VkEvent {
-    public String type;
-    public VkEventObject object;
+    private String type;
+    private VkEventObject object;
 
     public String getType() {
         return type;

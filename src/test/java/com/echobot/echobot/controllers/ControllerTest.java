@@ -1,6 +1,6 @@
 package com.echobot.echobot.controllers;
 
-import com.echobot.echobot.events.newMessage.VkEvent;
+import com.echobot.echobot.events.newmessage.VkEvent;
 import com.echobot.echobot.requests.ApiMethod;
 import com.echobot.echobot.requests.Request;
 import org.junit.jupiter.api.Assertions;

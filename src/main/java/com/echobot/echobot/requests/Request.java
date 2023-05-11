@@ -1,6 +1,6 @@
 package com.echobot.echobot.requests;
 
-import com.echobot.echobot.events.newMessage.VkEvent;
+import com.echobot.echobot.events.newmessage.VkEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;

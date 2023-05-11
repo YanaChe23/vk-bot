@@ -1,8 +1,8 @@
 package com.echobot.echobot.requests;
 
-import com.echobot.echobot.events.newMessage.Message;
-import com.echobot.echobot.events.newMessage.VkEvent;
-import com.echobot.echobot.events.newMessage.VkEventObject;
+import com.echobot.echobot.events.newmessage.Message;
+import com.echobot.echobot.events.newmessage.VkEvent;
+import com.echobot.echobot.events.newmessage.VkEventObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;

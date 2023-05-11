@@ -1,7 +1,7 @@
-package com.echobot.echobot.events.newMessage;
+package com.echobot.echobot.events.newmessage;
 
 public class VkEventObject {
-    public Message message;
+    private Message message;
     public Message getMessage() {
         return message;
     }

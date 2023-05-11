@@ -1,7 +1,7 @@
 package com.echobot.echobot.controllers;
 
 import com.echobot.echobot.requests.ApiMethod;
-import com.echobot.echobot.events.newMessage.VkEvent;
+import com.echobot.echobot.events.newmessage.VkEvent;
 import com.echobot.echobot.requests.Request;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;

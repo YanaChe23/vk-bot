@@ -1,8 +1,8 @@
 package com.echobot.echobot.requests;
 
-import com.echobot.echobot.events.newMessage.Message;
-import com.echobot.echobot.events.newMessage.VkEvent;
-import com.echobot.echobot.events.newMessage.VkEventObject;
+import com.echobot.echobot.events.newmessage.Message;
+import com.echobot.echobot.events.newmessage.VkEvent;
+import com.echobot.echobot.events.newmessage.VkEventObject;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -43,14 +43,14 @@ class UriTest {
         when(vkEvent.getObject()).thenReturn(vkEventObject);
         when(vkEventObject.getMessage()).thenReturn(message);
         when(message.getText()).thenReturn("Hello");
-        when(message.getFrom_id()).thenReturn("1");
+        when(message.getId()).thenReturn("1");
         when(uri.generateRandomId()).thenReturn("3");
     }
 
     @Test
     void addUriParamsTest_ifReturnsCorrectParams() {
         requestParams =  new LinkedMultiValueMap<>();
-        requestParams.add("user_id", message.getFrom_id());
+        requestParams.add("user_id", message.getId());
         requestParams.add("random_id", uri.generateRandomId());
         requestParams.add("message", "You said: " + message.getText());
         requestParams.add("access_token", token);
