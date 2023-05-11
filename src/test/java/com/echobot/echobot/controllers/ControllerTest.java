@@ -18,7 +18,7 @@ import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 @WebMvcTest
-class WebControllerTest {
+class ControllerTest {
     @Autowired
     private MockMvc mockMvc;
     @MockBean
@@ -31,7 +31,7 @@ class WebControllerTest {
     String callbackApiConfirmationTests;
 
     @Test
-    void processVkEventTest_processNewMessage() throws Exception {
+    void processVkEventTest_checkBehaviourForNewMessage() throws Exception {
         mockMvc.perform(post("")
                         .contentType("application/json")
                         .content("{\"type\":\"message_new\",\"object\":{\"message\":{\"from_id\":\"74598334\", \"text\":\"text\"}}}"))
@@ -40,7 +40,7 @@ class WebControllerTest {
     }
 
     @Test
-    void processVkEventTest_processUnknownEvent() throws Exception {
+    void processVkEventTest_checkBehaviourForUnknownEvent() throws Exception {
         mockMvc.perform(post("")
                         .contentType("application/json")
                         .content("{\"type\":\"unknown_event\"}"))

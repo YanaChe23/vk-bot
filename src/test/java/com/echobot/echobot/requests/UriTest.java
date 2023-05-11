@@ -26,7 +26,6 @@ import static org.mockito.Mockito.*;
 class UriTest {
     @SpyBean
     private Uri uri;
-    private MultiValueMap<String, String> requestParams;
     @Mock
     private Message message;
     @Mock
@@ -37,30 +36,41 @@ class UriTest {
     private String token;
     @Value("${request.apiVersion}")
     private String apiVersion;
+    @Value("${request.host}")
+    private String host;
 
     @BeforeEach
     void setUp() {
         when(vkEvent.getObject()).thenReturn(vkEventObject);
         when(vkEventObject.getMessage()).thenReturn(message);
-        when(message.getText()).thenReturn("Hello");
         when(message.getFrom_id()).thenReturn("1");
         when(uri.generateRandomId()).thenReturn("3");
     }
 
     @Test
-    void addUriParamsTest_ifReturnsCorrectParams() {
-        requestParams =  new LinkedMultiValueMap<>();
-        requestParams.add("user_id", message.getFrom_id());
-        requestParams.add("random_id", uri.generateRandomId());
-        requestParams.add("message", "You said: " + message.getText());
-        requestParams.add("access_token", token);
-        requestParams.add("v", apiVersion);
-        Assertions.assertEquals(requestParams, uri.addUriParams("messages.send", vkEvent));
+    void addUriParamsTest_checkUriParamIsCorrect() {
+        when(message.getText()).thenReturn("Hello");
+        Assertions.assertEquals("{access_token=[test_token], v=[5.131], user_id=[1], random_id=[3], " +
+                "message=[You said: Hello]}", uri.addUriParams("messages.send", vkEvent).toString());
     }
 
     @Test
     void buildUriTest_ifReturnsCorrectUri() {
-        String uriStringToCompare = "https://api.vk.com/method/messages.send?user_id=1&random_id=3&message=You said: Hello&access_token=test_token&v=5.131";
-        Assertions.assertEquals(uriStringToCompare, uri.buildUri("messages.send", vkEvent).toString());
+        when(message.getText()).thenReturn("Hello");
+        Assertions.assertEquals("https://api.vk.com/method/messages.send?access_token=test_token&v=5.131" +
+                "&user_id=1&random_id=3&message=You said: Hello", uri.buildUri("messages.send", vkEvent).toString());
+    }
+
+    @Test
+    void generateTextMessage_checkMessageForAttachments() {
+        when(message.getText()).thenReturn("");
+        Assertions.assertEquals("I don't work with attachments yet. Please send me a text message.",
+                uri.generateTextMessage(vkEvent));
+    }
+
+    @Test
+    void generateTextMessage_checkMessageForText() {
+        when(message.getText()).thenReturn("Hello");
+        Assertions.assertEquals("You said: Hello", uri.generateTextMessage(vkEvent));
     }
 }

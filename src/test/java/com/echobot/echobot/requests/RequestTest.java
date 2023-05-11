@@ -19,7 +19,6 @@ import static org.mockito.Mockito.*;
 @SpringBootTest
 @ContextConfiguration(classes = RequestTest.class,
         loader = AnnotationConfigContextLoader.class)
-@TestPropertySource(locations = {"classpath:application.properties"})
 class RequestTest {
     @Mock
     private UriComponents uriComponents;

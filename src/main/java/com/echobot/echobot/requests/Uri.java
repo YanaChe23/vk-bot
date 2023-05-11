@@ -30,8 +30,8 @@ public class Uri {
         }
         return requestParams;
     }
-    public UriComponents buildUri(String action, VkEvent event) {
-        MultiValueMap<String, String> uriParams = addUriParams(action, event);
+    public UriComponents buildUri(String action, VkEvent vkEvent) {
+        MultiValueMap<String, String> uriParams = addUriParams(action, vkEvent);
         return UriComponentsBuilder.newInstance()
                 .scheme("https")
                 .host(this.host)
@@ -43,7 +43,7 @@ public class Uri {
         return String.valueOf(System.currentTimeMillis());
     }
 
-    private String generateTextMessage(VkEvent vkEvent) {
+    public String generateTextMessage(VkEvent vkEvent) {
         if (vkEvent != null
                 && vkEvent.getObject() != null
                 && vkEvent.getObject().getMessage() != null) {
