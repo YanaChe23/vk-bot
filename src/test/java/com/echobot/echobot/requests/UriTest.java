@@ -43,14 +43,14 @@ class UriTest {
         when(vkEvent.getObject()).thenReturn(vkEventObject);
         when(vkEventObject.getMessage()).thenReturn(message);
         when(message.getText()).thenReturn("Hello");
-        when(message.getId()).thenReturn("1");
+        when(message.getFrom_id()).thenReturn("1");
         when(uri.generateRandomId()).thenReturn("3");
     }
 
     @Test
     void addUriParamsTest_ifReturnsCorrectParams() {
         requestParams =  new LinkedMultiValueMap<>();
-        requestParams.add("user_id", message.getId());
+        requestParams.add("user_id", message.getFrom_id());
         requestParams.add("random_id", uri.generateRandomId());
         requestParams.add("message", "You said: " + message.getText());
         requestParams.add("access_token", token);
