@@ -18,11 +18,14 @@ public class Controller {
 
     @PostMapping("/")
     public String processVkEvent(@RequestBody VkEvent vkEvent) {
-        if (vkEvent.getType() != null && vkEvent.getType().equals("message_new")) {
-            request.makeRequest(ApiMethod.POST, "messages.send", vkEvent);
+        if (vkEvent.getType() != null) {
+            if (vkEvent.getType().equals("confirmation")) {
+                return callbackApiConfirmation;
+            } else if (vkEvent.getType().equals("message_new")) {
+                request.makeRequest(ApiMethod.POST, "messages.send", vkEvent);
+            }
         }
-        // returning the string to ensure successful server confirmation during set up in VK
-        // any specific response to events from VK is not required
-        return callbackApiConfirmation;
+        return "ok";
     }
 }
+

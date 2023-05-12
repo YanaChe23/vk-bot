@@ -13,8 +13,8 @@ import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.mockito.ArgumentMatchers.*;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 @WebMvcTest
@@ -40,6 +40,12 @@ class ControllerTest {
     }
 
     @Test
+    void processVkEventTest_checkResponseForNewMessage() throws Exception {
+        when(vkEvent.getType()).thenReturn("message_new");
+        Assertions.assertEquals("ok", controller.processVkEvent(vkEvent));
+    }
+
+    @Test
     void processVkEventTest_checkBehaviourForUnknownEvent() throws Exception {
         mockMvc.perform(post("")
                         .contentType("application/json")
@@ -49,7 +55,23 @@ class ControllerTest {
     }
 
     @Test
-    void processVkEventTest_checkWhatReturns() {
+    void processVkEventTest_checkResponseForUnknownEvent() throws Exception {
+        when(vkEvent.getType()).thenReturn("unknown_event");
+        Assertions.assertEquals("ok", controller.processVkEvent(vkEvent));
+    }
+
+    @Test
+    void processVkEventTest_checkBehaviourForConfirmation() throws Exception {
+        mockMvc.perform(post("")
+                        .contentType("application/json")
+                        .content("{\"type\":\"confirmation\",\"group_id\":219665708}"))
+                .andExpect(status().isOk());
+        verify(request, never()).makeRequest(eq(ApiMethod.POST), eq("messages.send"), isA(VkEvent.class));
+    }
+
+    @Test
+    void processVkEventTest_checkResponseForConfirmation() {
+        when(vkEvent.getType()).thenReturn("confirmation");
         Assertions.assertEquals(callbackApiConfirmationTests, controller.processVkEvent(vkEvent));
     }
 }
