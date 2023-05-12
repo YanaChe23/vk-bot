@@ -4,6 +4,7 @@ The project was developed to train my knowlage of Java during study process. As 
 
 The chat bot can be connected to a VK public via Callback API. The only thing it can do is echoing text messages.
 Please go to main/resources/application.properties and provide: 
- - endpoind verefication string (request.callbackApiConfirmation)
- - access token (request.token)
+ - endpoind verefication string (request.callbackApiConfirmation);
+ - access token (request.token).
+ 
 You can use https://ngrok.com/ as a server to connect chatbot via Callback API.
