@@ -3,8 +3,8 @@ Simple Java chatbot for VK.com
 ## Table of content 
 
  - [General info](#general-info) 
-
  - [Technologies](#technologies)
+ - [Features](#features)
 
 ## General info
 The project is a simple echo bot that can be used as a base for further chatbot development. 
