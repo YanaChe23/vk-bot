@@ -25,6 +25,7 @@ public class Controller {
                 request.makeRequest(ApiMethod.POST, "messages.send", vkEvent);
             }
         }
+        // VK expects to receive "ok" on every request except confirmation
         return "ok";
     }
 }
