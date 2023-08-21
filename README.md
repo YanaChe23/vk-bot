@@ -5,6 +5,8 @@ Simple Java chatbot for VK.com
  - [General info](#general-info) 
  - [Technologies](#technologies)
  - [Features](#features)
+ - [How to connect the chatbot to a VK public](#how-to-connect-the-chatbot-to-a-V-public)
+ - [How to install and run](#How-to-install-and-run)
 
 ## General info
 The project is a simple echo bot that can be used as a base for further chatbot development. 
@@ -16,7 +18,7 @@ Please use [Callback API connection](https://dev.vk.com/ru/api/bots/getting-star
 To install the application, you need an access token (as a rule, it starts with "vk1. ...") and a confirmation string to 
 be returned from Callback API section 
 
-## Installation 
+## How to install and run 
 Pull the image from Docker Hub:
 > docker pull chuprunovayana/vk_echo_chatbot:latest
 
