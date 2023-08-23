@@ -54,10 +54,11 @@ Now it's time to test a chatbot: send a message to the connected public, and the
 
 
 ## Technologies
-- Java 19 
+- Java 18 
 - Spring Boot
 - Spring MVC
 - JUnit 5
+- Docker
 
 ## Features 
 The bot can be connected to a VK public, and it will echo text messages. When send something different to text, it will inform you that this option is not available yet. 
