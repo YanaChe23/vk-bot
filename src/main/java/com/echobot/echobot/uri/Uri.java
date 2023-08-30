@@ -1,4 +1,4 @@
-package com.echobot.echobot.requests;
+package com.echobot.echobot.uri;
 
 import com.echobot.echobot.events.newmessage.Message;
 import com.echobot.echobot.events.newmessage.VkEvent;
@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
-import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
 @Component
@@ -30,14 +29,15 @@ public class Uri {
         }
         return requestParams;
     }
-    public UriComponents buildUri(String action, VkEvent vkEvent) {
+    public String buildUri(String action, VkEvent vkEvent) {
         MultiValueMap<String, String> uriParams = addUriParams(action, vkEvent);
         return UriComponentsBuilder.newInstance()
                 .scheme("https")
                 .host(this.host)
                 .queryParams(uriParams)
                 .path("/method/" + action)
-                .build();
+                .build()
+                .toString();
     }
     public String generateRandomId() {
         return String.valueOf(System.currentTimeMillis());

@@ -1,4 +1,4 @@
-package com.echobot.echobot.requests;
+package com.echobot.echobot.uri;
 
 import com.echobot.echobot.events.newmessage.Message;
 import com.echobot.echobot.events.newmessage.VkEvent;
@@ -13,8 +13,6 @@ import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.support.AnnotationConfigContextLoader;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
 
 import static org.mockito.Mockito.*;
 
