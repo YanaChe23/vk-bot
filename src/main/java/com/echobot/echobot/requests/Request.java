@@ -24,7 +24,7 @@ abstract class Request {
 		return httpClient;
 	}
 	public HttpResponse<String> makeRequest(String action, VkEvent vkEvent, String[] headers, Duration timeout,
-											HttpClient.Version version) {
+											HttpClient.Version version)  {
 		String uriComponents = uri.buildUri(action, vkEvent);
 		HttpRequest httpRequest = createRequest(uriComponents, headers, timeout, version);
 		HttpResponse<String> response =  sendRequest(httpRequest);

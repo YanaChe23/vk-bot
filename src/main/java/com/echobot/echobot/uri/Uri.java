@@ -8,6 +8,9 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+
 @Component
 public class Uri {
     @Value("${request.token}")
@@ -39,21 +42,29 @@ public class Uri {
                 .build()
                 .toString();
     }
+
     public String generateRandomId() {
         return String.valueOf(System.currentTimeMillis());
     }
 
     public String generateTextMessage(VkEvent vkEvent) {
+        String text;
         if (vkEvent != null
                 && vkEvent.getObject() != null
                 && vkEvent.getObject().getMessage() != null) {
             if (vkEvent.getObject().getMessage().getText().isEmpty()
                     || vkEvent.getObject().getMessage().getText() == null) {
-                return "I don't work with attachments yet. Please send me a text message.";
+                text =  "I don't work with attachments yet. Please send me a text message.";
             } else {
-                return "You said: " + vkEvent.getObject().getMessage().getText();
+                text = "You said: " + vkEvent.getObject().getMessage().getText();
             }
+        } else {
+            text = "Something went wrong. Please try later.";
         }
-        return "Something went wrong. Please try later.";
+        try {
+            return URLEncoder.encode(text, "utf-8");
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

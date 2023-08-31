@@ -11,4 +11,5 @@ public class VkEvent {
     public VkEventObject getObject() {
         return object;
     }
+
 }

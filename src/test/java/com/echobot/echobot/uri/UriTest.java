@@ -14,6 +14,8 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.support.AnnotationConfigContextLoader;
 
+import java.io.UnsupportedEncodingException;
+
 import static org.mockito.Mockito.*;
 
 @SpringBootTest
@@ -49,26 +51,26 @@ class UriTest {
     void addUriParamsTest_checkUriParamIsCorrect() {
         when(message.getText()).thenReturn("Hello");
         Assertions.assertEquals("{access_token=[test_token], v=[5.131], user_id=[1], random_id=[3], " +
-                "message=[You said: Hello]}", uri.addUriParams("messages.send", vkEvent).toString());
+                "message=[You+said%3A+Hello]}", uri.addUriParams("messages.send", vkEvent).toString());
     }
 
     @Test
     void buildUriTest_ifReturnsCorrectUri() {
         when(message.getText()).thenReturn("Hello");
         Assertions.assertEquals("https://api.vk.com/method/messages.send?access_token=test_token&v=5.131" +
-                "&user_id=1&random_id=3&message=You said: Hello", uri.buildUri("messages.send", vkEvent).toString());
+                "&user_id=1&random_id=3&message=You+said%3A+Hello", uri.buildUri("messages.send", vkEvent).toString());
     }
 
     @Test
     void generateTextMessage_checkMessageForAttachments() {
         when(message.getText()).thenReturn("");
-        Assertions.assertEquals("I don't work with attachments yet. Please send me a text message.",
+        Assertions.assertEquals("I+don%27t+work+with+attachments+yet.+Please+send+me+a+text+message.",
                 uri.generateTextMessage(vkEvent));
     }
 
     @Test
     void generateTextMessage_checkMessageForText() {
         when(message.getText()).thenReturn("Hello");
-        Assertions.assertEquals("You said: Hello", uri.generateTextMessage(vkEvent));
+        Assertions.assertEquals("You+said%3A+Hello", uri.generateTextMessage(vkEvent));
     }
 }
