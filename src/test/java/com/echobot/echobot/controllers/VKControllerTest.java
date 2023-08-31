@@ -1,8 +1,8 @@
 package com.echobot.echobot.controllers;
 
 import com.echobot.echobot.events.newmessage.VkEvent;
-import com.echobot.echobot.requests.ApiMethod;
-import com.echobot.echobot.requests.Request;
+import com.echobot.echobot.requests.GetRequest;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,13 +18,13 @@ import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 @WebMvcTest
-class ControllerTest {
+class VKControllerTest {
     @Autowired
     private MockMvc mockMvc;
     @MockBean
-    private Request request;
+    private GetRequest getRequest;
     @SpyBean
-    Controller controller;
+    VKController vkController;
     @MockBean
     VkEvent vkEvent;
     @Value("${request.callbackApiConfirmation}")
@@ -36,13 +36,13 @@ class ControllerTest {
                         .contentType("application/json")
                         .content("{\"type\":\"message_new\",\"object\":{\"message\":{\"from_id\":\"74598334\", \"text\":\"text\"}}}"))
                 .andExpect(status().isOk());
-        verify(request).makeRequest(eq(ApiMethod.POST), eq("messages.send"), isA(VkEvent.class));
+        verify(getRequest).makeRequest(eq("messages.send"), isA(VkEvent.class), eq(null), eq(null), eq(null));
     }
 
     @Test
-    void processVkEventTest_checkResponseForNewMessage() throws Exception {
+    void processVkEventTest_checkResponseForNewMessage()  {
         when(vkEvent.getType()).thenReturn("message_new");
-        Assertions.assertEquals("ok", controller.processVkEvent(vkEvent));
+        Assertions.assertEquals("ok", vkController.processVkEvent(vkEvent));
     }
 
     @Test
@@ -51,13 +51,13 @@ class ControllerTest {
                         .contentType("application/json")
                         .content("{\"type\":\"unknown_event\"}"))
                 .andExpect(status().isOk());
-        verify(request, never()).makeRequest(eq(ApiMethod.POST), eq("messages.send"), isA(VkEvent.class));
+        verify(getRequest, never()).makeRequest(eq("messages.send"), isA(VkEvent.class), any(), any(), any());
     }
 
     @Test
     void processVkEventTest_checkResponseForUnknownEvent() throws Exception {
         when(vkEvent.getType()).thenReturn("unknown_event");
-        Assertions.assertEquals("ok", controller.processVkEvent(vkEvent));
+        Assertions.assertEquals("ok", vkController.processVkEvent(vkEvent));
     }
 
     @Test
@@ -66,12 +66,12 @@ class ControllerTest {
                         .contentType("application/json")
                         .content("{\"type\":\"confirmation\",\"group_id\":219665708}"))
                 .andExpect(status().isOk());
-        verify(request, never()).makeRequest(eq(ApiMethod.POST), eq("messages.send"), isA(VkEvent.class));
+        verify(getRequest, never()).makeRequest(eq("messages.send"), isA(VkEvent.class), any(), any(), any());
     }
 
     @Test
     void processVkEventTest_checkResponseForConfirmation() {
         when(vkEvent.getType()).thenReturn("confirmation");
-        Assertions.assertEquals(callbackApiConfirmationTests, controller.processVkEvent(vkEvent));
+        Assertions.assertEquals(callbackApiConfirmationTests, vkController.processVkEvent(vkEvent));
     }
 }

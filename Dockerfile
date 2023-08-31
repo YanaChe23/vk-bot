@@ -3,7 +3,7 @@ WORKDIR /maven
 COPY . /maven
 RUN mvn package spring-boot:repackage
 
-FROM ubuntu
+FROM ubuntu:22.04
 WORKDIR /app
 EXPOSE 8080
 RUN apt update &&\
