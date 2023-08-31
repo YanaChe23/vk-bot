@@ -5,20 +5,17 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.time.Duration;
-
 import com.echobot.echobot.events.newmessage.VkEvent;
 import com.echobot.echobot.uri.Uri;
 import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-
-
 @Component
 abstract class Request {
 	private HttpClient httpClient;
 	@Autowired
-	Uri uri;
+	private Uri uri;
 	private HttpClient getHttpClient() {
 		if (httpClient == null) httpClient = HttpClient.newHttpClient();
 		return httpClient;
@@ -39,7 +36,7 @@ abstract class Request {
 		if (version != null) request = request.version(version);
 		return request;
 	}
-	public HttpResponse<String> sendRequest(HttpRequest httpRequest) {
+	  HttpResponse<String> sendRequest(HttpRequest httpRequest) {
 		httpClient = getHttpClient();
 		try {
 			return httpClient.send(httpRequest, HttpResponse.BodyHandlers.ofString());
@@ -50,4 +47,3 @@ abstract class Request {
 		}
 	}
 }
-

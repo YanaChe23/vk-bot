@@ -4,19 +4,15 @@ import com.echobot.echobot.events.newmessage.VkEvent;
 import com.echobot.echobot.uri.Uri;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.support.AnnotationConfigContextLoader;
-
-
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.time.Duration;
-
 import static org.mockito.Mockito.*;
 @SpringBootTest
 @ContextConfiguration(classes = RequestTest.class,

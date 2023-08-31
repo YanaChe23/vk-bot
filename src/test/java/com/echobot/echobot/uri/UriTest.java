@@ -13,9 +13,6 @@ import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.support.AnnotationConfigContextLoader;
-
-import java.io.UnsupportedEncodingException;
-
 import static org.mockito.Mockito.*;
 
 @SpringBootTest

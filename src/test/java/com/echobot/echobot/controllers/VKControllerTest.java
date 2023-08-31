@@ -24,7 +24,7 @@ class VKControllerTest {
     @MockBean
     private GetRequest getRequest;
     @SpyBean
-    VKController controller;
+    VKController vkController;
     @MockBean
     VkEvent vkEvent;
     @Value("${request.callbackApiConfirmation}")
@@ -42,7 +42,7 @@ class VKControllerTest {
     @Test
     void processVkEventTest_checkResponseForNewMessage()  {
         when(vkEvent.getType()).thenReturn("message_new");
-        Assertions.assertEquals("ok", controller.processVkEvent(vkEvent));
+        Assertions.assertEquals("ok", vkController.processVkEvent(vkEvent));
     }
 
     @Test
@@ -57,7 +57,7 @@ class VKControllerTest {
     @Test
     void processVkEventTest_checkResponseForUnknownEvent() throws Exception {
         when(vkEvent.getType()).thenReturn("unknown_event");
-        Assertions.assertEquals("ok", controller.processVkEvent(vkEvent));
+        Assertions.assertEquals("ok", vkController.processVkEvent(vkEvent));
     }
 
     @Test
@@ -72,6 +72,6 @@ class VKControllerTest {
     @Test
     void processVkEventTest_checkResponseForConfirmation() {
         when(vkEvent.getType()).thenReturn("confirmation");
-        Assertions.assertEquals(callbackApiConfirmationTests, controller.processVkEvent(vkEvent));
+        Assertions.assertEquals(callbackApiConfirmationTests, vkController.processVkEvent(vkEvent));
     }
 }

@@ -7,7 +7,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.util.UriComponentsBuilder;
-
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
@@ -20,7 +19,7 @@ public class Uri {
     @Value("${request.host}")
     private String host;
 
-    public MultiValueMap<String, String> addUriParams(String action, VkEvent event) {
+     MultiValueMap<String, String> addUriParams(String action, VkEvent event) {
         MultiValueMap<String, String> requestParams = new LinkedMultiValueMap<>();
         requestParams.add("access_token", this.token);
         requestParams.add("v", this.apiVersion);
@@ -32,6 +31,7 @@ public class Uri {
         }
         return requestParams;
     }
+
     public String buildUri(String action, VkEvent vkEvent) {
         MultiValueMap<String, String> uriParams = addUriParams(action, vkEvent);
         return UriComponentsBuilder.newInstance()
@@ -43,11 +43,11 @@ public class Uri {
                 .toString();
     }
 
-    public String generateRandomId() {
+     String generateRandomId() {
         return String.valueOf(System.currentTimeMillis());
     }
 
-    public String generateTextMessage(VkEvent vkEvent) {
+    String generateTextMessage(VkEvent vkEvent) {
         String text;
         if (vkEvent != null
                 && vkEvent.getObject() != null

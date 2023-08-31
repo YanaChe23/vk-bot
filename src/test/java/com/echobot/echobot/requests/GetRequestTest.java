@@ -12,11 +12,10 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.support.AnnotationConfigContextLoader;
-
 import java.net.http.HttpRequest;
 
-
 import static org.mockito.Mockito.*;
+
 @SpringBootTest
 @ContextConfiguration(classes = GetRequestTest.class,
         loader = AnnotationConfigContextLoader.class)
@@ -34,18 +33,18 @@ class GetRequestTest {
 
     @BeforeEach
     void setUp() {
-        when(uri.buildUri("messages.send", vkEvent)).thenReturn("https://api.vk.com/method/messages.send?user_id&random_id=3&message=You said: null&access_token=test_token&v=5.131");
+        when(uri.buildUri("messages.send", vkEvent)).thenReturn("https://api.vk.com/method/messages.send?user_id&random_id=3&message=You+said%3A+Hello&access_token=test_token&v=5.131");
         when(vkEvent.getObject()).thenReturn(vkEventObject);
         when(vkEventObject.getMessage()).thenReturn(message);
     }
 
     @Test
-    void createBaseRequestTest_noAdditional_Settings() {
+    void createBaseRequestTest_noAdditionalSettings() {
         HttpRequest request = getRequest.createRequest("https://api.vk.com/method/messages.send?user_id" +
-                "&random_id=3&message=You_said:null&access_token=test_token&v=5.131", null, null, null);
+                "&random_id=3&message=You+said%3A+Hello&access_token=test_token&v=5.131", null, null, null);
         Assertions.assertEquals( "GET", request.method());
         Assertions.assertEquals("https://api.vk.com/method/messages.send?user_id&random_id=3" +
-                "&message=You_said:null&access_token=test_token&v=5.131", request.uri().toString());
+                "&message=You+said%3A+Hello&access_token=test_token&v=5.131", request.uri().toString());
         Assertions.assertTrue(request.headers().map().isEmpty());
         Assertions.assertTrue(request.timeout().isEmpty());
         Assertions.assertTrue(request.version().isEmpty());
