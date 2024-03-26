@@ -13,4 +13,11 @@ public class ExceptionAdvice {
         fileEntityIssue.setInfo(exception.getMessage());
         return new ResponseEntity<>(fileEntityIssue, HttpStatus.INTERNAL_SERVER_ERROR);
     }
+
+    @ExceptionHandler(EventParsingException.class)
+    public ResponseEntity<ExceptionData> handleEventParsingException(EventParsingException exception) {
+        ExceptionData fileEntityIssue = new ExceptionData();
+        fileEntityIssue.setInfo(exception.getMessage());
+        return new ResponseEntity<>(fileEntityIssue, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 }
