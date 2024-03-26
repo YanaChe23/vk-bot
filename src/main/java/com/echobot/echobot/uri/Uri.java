@@ -25,7 +25,7 @@ public class Uri {
         requestParams.add("v", this.apiVersion);
         if (action.equals("messages.send")) {
             Message message = event.getObject().getMessage();
-            requestParams.add("user_id", message.getFrom_id());
+            requestParams.add("peer_id", message.getPeer_id());
             requestParams.add("random_id", generateRandomId());
             requestParams.add("message", generateTextMessage(event));
         }
@@ -48,6 +48,8 @@ public class Uri {
     }
 
     String generateTextMessage(VkEvent vkEvent) {
+
+         // TODO remove bot namee
         String text;
         if (vkEvent != null
                 && vkEvent.getObject() != null
