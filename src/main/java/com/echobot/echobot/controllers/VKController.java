@@ -7,7 +7,6 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@PropertySource("classpath:application.properties")
 @RequiredArgsConstructor
 public class VKController {
     private final EventStrategyManager eventStrategyManager;

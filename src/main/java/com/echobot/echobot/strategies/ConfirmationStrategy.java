@@ -3,10 +3,7 @@ package com.echobot.echobot.strategies;
 import com.echobot.echobot.events.newmessage.VkEvent;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
-
-import java.net.http.HttpResponse;
 
 @Component
 @PropertySource("classpath:application.properties")

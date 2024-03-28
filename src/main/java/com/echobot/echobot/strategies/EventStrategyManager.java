@@ -11,10 +11,7 @@ import java.util.Map;
 @Component
 @RequiredArgsConstructor
 public class EventStrategyManager {
-    private NewMessageStrategy newMessageStrategy;
-    private ConfirmationStrategy confirmationStrategy;
-    Map<String, VkEventStrategy> strategies;
-
+    private Map<String, VkEventStrategy> strategies;
 
     @Autowired
     public EventStrategyManager(NewMessageStrategy newMessageStrategy, ConfirmationStrategy confirmationStrategy) {

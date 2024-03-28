@@ -20,4 +20,11 @@ public class ExceptionAdvice {
         fileEntityIssue.setInfo(exception.getMessage());
         return new ResponseEntity<>(fileEntityIssue, HttpStatus.INTERNAL_SERVER_ERROR);
     }
+
+    @ExceptionHandler(MakingRequestException.class)
+    public ResponseEntity<ExceptionData> handleMakingRequestException(MakingRequestException exception) {
+        ExceptionData fileEntityIssue = new ExceptionData();
+        fileEntityIssue.setInfo(exception.getMessage());
+        return new ResponseEntity<>(fileEntityIssue, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 }

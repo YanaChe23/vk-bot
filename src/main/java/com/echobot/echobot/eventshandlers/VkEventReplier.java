@@ -1,9 +1,9 @@
-package com.echobot.echobot.requests;
+package com.echobot.echobot.eventshandlers;
 
 import com.echobot.echobot.events.newmessage.VkEvent;
 
 import java.net.http.HttpResponse;
 
 public interface VkEventReplier {
-     HttpResponse<String> reply(VkEvent vkEvent);
+     String reply(VkEvent vkEvent);
 }
