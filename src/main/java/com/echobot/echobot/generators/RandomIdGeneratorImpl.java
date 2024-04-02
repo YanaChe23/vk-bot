@@ -1,6 +1,5 @@
 package com.echobot.echobot.generators;
 
-import lombok.extern.apachecommons.CommonsLog;
 import org.springframework.stereotype.Component;
 
 @Component

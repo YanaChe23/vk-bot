@@ -29,7 +29,6 @@ public class MessagesSendHandler extends VkRequestsHandler {
 
     public String reply(VkEvent vkEvent) {
         HttpResponse <String> response = sendRequest(vkEvent);
-        System.out.println(response);
         if (response.statusCode() != 200) log.error("New message response failed: " + response);
         return requestReceivedConfirmation;
     }
