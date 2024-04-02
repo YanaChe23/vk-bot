@@ -7,7 +7,6 @@ import org.springframework.stereotype.Component;
 
 @Component
 @PropertySource("classpath:application.properties")
-
 public class ConfirmationStrategy implements VkEventStrategy {
     @Value("${request.callbackApiConfirmation}")
     private String callbackApiConfirmation;

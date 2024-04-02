@@ -3,8 +3,9 @@ package com.echobot.echobot.controllers;
 import com.echobot.echobot.events.newmessage.VkEvent;
 import com.echobot.echobot.strategies.EventStrategyManager;
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.web.bind.annotation.*;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 
 @RestController
 @RequiredArgsConstructor

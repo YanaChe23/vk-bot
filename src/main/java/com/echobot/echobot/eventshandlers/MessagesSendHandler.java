@@ -1,10 +1,8 @@
 package com.echobot.echobot.eventshandlers;
 
 import com.echobot.echobot.events.newmessage.VkEvent;
-import com.echobot.echobot.exceptions.MakingRequestException;
+import com.echobot.echobot.exceptions.SendingRequestException;
 import com.echobot.echobot.uribuilders.VkResponseUriBuilder;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -22,31 +20,32 @@ public class MessagesSendHandler extends VkRequestsHandler {
     @Value("${request.requestReceivedConfirmation}")
     protected String requestReceivedConfirmation;
 
-    protected final VkResponseUriBuilder baseUriBuilder;
+    protected final VkResponseUriBuilder uriBuilder;
 
     @Autowired
-    public MessagesSendHandler(@Qualifier("messageSendUriBuilder") VkResponseUriBuilder baseUriBuilder) {
-        this.baseUriBuilder = baseUriBuilder;
+    public MessagesSendHandler(@Qualifier("messageSendUriBuilder") VkResponseUriBuilder messageSendUriBuilder) {
+        this.uriBuilder = messageSendUriBuilder;
     }
 
     public String reply(VkEvent vkEvent) {
-        HttpRequest request = buildRequest(vkEvent);
-        HttpResponse <String> response = sendRequest(request);
+        HttpResponse <String> response = sendRequest(vkEvent);
+        System.out.println(response);
         if (response.statusCode() != 200) log.error("New message response failed: " + response);
         return requestReceivedConfirmation;
     }
 
-    private HttpResponse <String> sendRequest(HttpRequest request) {
+    private HttpResponse <String> sendRequest(VkEvent vkEvent) {
+        HttpRequest request = buildRequest(vkEvent);
         try {
             return httpClient.send(request, HttpResponse.BodyHandlers.ofString());
         } catch (IOException | InterruptedException e) {
             log.error(e.getMessage());
-            throw new MakingRequestException("Failed to send a message.");
+            throw new SendingRequestException("Failed to send a message.");
         }
     }
 
-    public HttpRequest buildRequest(VkEvent vkEvent) {
-        String uri = baseUriBuilder.buildUri(vkEvent);
+    private HttpRequest buildRequest(VkEvent vkEvent) {
+        String uri = uriBuilder.buildUri(vkEvent);
         return HttpRequest.newBuilder(URI.create(uri))
                 .GET()
                 .build();
