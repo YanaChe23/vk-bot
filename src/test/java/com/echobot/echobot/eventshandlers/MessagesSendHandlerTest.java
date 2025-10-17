@@ -61,4 +61,9 @@ class MessagesSendHandlerTest {
                 .thenThrow(new InterruptedException());
         assertThrows(SendingRequestException.class, () -> messagesSendHandler.reply(vkEvent));
     }
+
+    @Test
+    public void test() {
+        assertEquals("Hello", "Hello");
+    }
 }

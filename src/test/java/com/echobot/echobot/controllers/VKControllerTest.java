@@ -44,4 +44,8 @@ class VKControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().string(""));
     }
+    @Test
+    public void test() {
+
+    }
 }
